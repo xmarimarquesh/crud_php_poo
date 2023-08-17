@@ -125,7 +125,31 @@ if(isset($_GET['action'])){
             <td>Placa</td>
             <td>Cor</td>
             <td>Ano</td>
+            <td>Ações</td>
         </tr>
+
+        <?php
+            if($rows->rowCount() == 0){
+                echo "<tr>";
+                echo "<td colspan='7'>Nenhum dado encontrado</td>";
+                echo "</tr>";
+            } else {
+                while($row = $rows->fetch(PDO::FETCH_ASSOC)){
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['modelo'] . "</td>";
+                    echo "<td>" . $row['marca'] . "</td>";
+                    echo "<td>" . $row['placa'] . "</td>";
+                    echo "<td>" . $row['cor'] . "</td>";
+                    echo "<td>" . $row['ano'] . "</td>";
+                    echo "<td>";
+                    echo "<a href='?action=update&id=" . $row['id'] . "'>Update</a>";
+                    echo "<a href='?action=delete&id=" . $row['id'] . "' onclick='return confirm(\"Tem certeza que quer apagar esse registro?\")' class='delete'>Delete</a>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            }
+        ?>
     </table>
 </body>
 </html>

@@ -42,6 +42,34 @@ class Crud{
         $stmt->execute();
         return $stmt;
     }
+
+    public function update($postValues){
+        $id = $postValues['id'];
+        $marca = $postValues['marca'];
+        $modelo = $postValues['modelo'];
+        $placa = $postValues['placa'];
+        $cor = $postValues['cor'];
+        $ano = $postValues['ano'];
+
+        if(empty($id) || empty($modelo) || empty($marca) || empty($placa) || empty($cor) || empty($ano)){
+            return false;
+        }
+
+        $query = "UPDATE" . $this->table_name. " SET modelo = ?, marca = ?, placa = ?, cor = ?, ano = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $modelo);
+        $stmt->bindParam(2, $marca);
+        $stmt->bindParam(3, $placa);
+        $stmt->bindParam(4, $cor);
+        $stmt->bindParam(5, $ano);
+        $stmt->bindParam(6, $id);
+
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 ?>
