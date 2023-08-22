@@ -55,7 +55,7 @@ class Crud{
             return false;
         }
 
-        $query = "UPDATE" . $this->table_name. " SET modelo = ?, marca = ?, placa = ?, cor = ?, ano = ? WHERE id = ?";
+        $query = "UPDATE " . $this->table_name. " SET modelo = ?, marca = ?, placa = ?, cor = ?, ano = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $modelo);
         $stmt->bindParam(2, $marca);
@@ -63,7 +63,28 @@ class Crud{
         $stmt->bindParam(4, $cor);
         $stmt->bindParam(5, $ano);
         $stmt->bindParam(6, $id);
+        
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
 
+        
+    }
+
+    public function readOne($id){
+        $query = "SELECT * FROM ". $this->table_name. " WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function delete($id){
+        $query = "DELETE FROM ". $this->table_name . " WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1,$id);
         if($stmt->execute()){
             return true;
         }else{
